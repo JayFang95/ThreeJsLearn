@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <h1>hello vue</h1>
+  <h1>hello vue, git</h1>
 </template>
 
 <style scoped>
