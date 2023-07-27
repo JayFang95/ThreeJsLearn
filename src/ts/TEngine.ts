@@ -1,6 +1,7 @@
-import { AmbientLight, AmbientLight, AxesHelper, BoxGeometry, GridHelper, Mesh, MeshStandardMaterial, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from "three";
+import { AmbientLight, AxesHelper, GridHelper, Object3D, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
+
 export class TEngine{
 
     private dom: HTMLElement;
@@ -23,23 +24,8 @@ export class TEngine{
         this.camera.lookAt(0, 0, 0);
         this.camera.up = new Vector3(0, 1, 0);
 
-        const axesHelper = new AxesHelper(100);
-        this.scene.add(axesHelper);
-        const gridHelper = new GridHelper(1000, 20, 'rgb(100, 100, 100)', 'rgb(150, 150, 150)');
-        gridHelper.position.set(0, -0.1, 0)
-        this.scene.add(gridHelper);
-
         const ambientLight = new AmbientLight('rgb(255, 255, 255)', 1);
         this.scene.add(ambientLight);
-
-        // 渲染基本图形
-        const box = new BoxGeometry(50 ,50 ,50);
-        const material = new MeshStandardMaterial({
-            color: 'rgb(255, 255, 0)'
-        });
-        const mesh = new Mesh(box, material);
-
-        this.scene.add(mesh);
 
         dom.appendChild(this.renderer.domElement);
         this.renderer.setSize(width, height, true);
@@ -61,7 +47,6 @@ export class TEngine{
         // oribitControls.autoRotate = true;
 
         const looper = () => {
-            mesh.rotateY(0.001);
             oribitControls.update();
             this.renderer.render(this.scene, this.camera);
 
@@ -70,8 +55,15 @@ export class TEngine{
             requestAnimationFrame(looper);
         }
         looper();
-
         
+    }
+
+    /**
+     * 向场景中添加3d对象
+     * @param objects objects
+     */
+    add(...objects: Object3D[]){
+        objects.forEach(elem => this.scene.add(elem));
     }
 
 }
