@@ -4,6 +4,7 @@ import { TEngine } from './ts/TEngine';
 
 import { basicObjectList } from './ts/TBasicObject';
 import { helperList } from './ts/THelper'
+import { lightList } from './ts/TLight';
 
 const canvasTarget = ref(null);
 
@@ -12,6 +13,7 @@ onMounted(() => {
   const tE = new TEngine(canvasTarget.value);
   tE.add(...basicObjectList);
   tE.add(...helperList);
+  tE.add(...lightList);
 })
 </script>
 

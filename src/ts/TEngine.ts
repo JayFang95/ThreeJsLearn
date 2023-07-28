@@ -17,15 +17,13 @@ export class TEngine{
         this.renderer = new WebGLRenderer({
             antialias: true, // 设置抗锯齿
         });
+        this.renderer.shadowMap.enabled = true;
         this.scene = new Scene();
-        this.camera = new PerspectiveCamera(30, width/height, 1, 1000);
+        this.camera = new PerspectiveCamera(30, width/height, 1, 3000);
 
-        this.camera.position.set(200, 200, 200);
+        this.camera.position.set(800, 800, 800);
         this.camera.lookAt(0, 0, 0);
         this.camera.up = new Vector3(0, 1, 0);
-
-        const ambientLight = new AmbientLight('rgb(255, 255, 255)', 1);
-        this.scene.add(ambientLight);
 
         dom.appendChild(this.renderer.domElement);
         this.renderer.setSize(width, height, true);
@@ -33,14 +31,6 @@ export class TEngine{
         this.renderer.setClearColor('rgb(125, 125, 125)', 0.5);
         this.renderer.clearColor();
 
-        // 设置性能监视器
-        const stats = Stats(); 
-        const statsDom = stats.domElement;
-        statsDom.style.position = 'fixed';
-        statsDom.style.top = '10px';
-        statsDom.style.left = '10px';
-
-        dom.appendChild(statsDom);
 
         // 设置相机控件：轨道控制器
         const oribitControls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -49,8 +39,6 @@ export class TEngine{
         const looper = () => {
             oribitControls.update();
             this.renderer.render(this.scene, this.camera);
-
-            stats.update();
 
             requestAnimationFrame(looper);
         }

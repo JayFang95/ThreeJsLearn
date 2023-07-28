@@ -1,35 +1,39 @@
-import { BoxGeometry, ConeGeometry, CylinderGeometry, Line, LineBasicMaterial, Mesh, MeshStandardMaterial, Object3D, SphereGeometry } from "three";
+import { BoxGeometry, Mesh, MeshStandardMaterial, Object3D, PlaneGeometry } from "three";
 
 export const basicObjectList: Object3D[] = [];
 
-const material = new MeshStandardMaterial({color: 'rgb(0, 255, 255)'});
-const materialLine = new LineBasicMaterial({color: 'rgb(0, 255, 255)'});
+// 设置地面
+const floor = new Mesh(
+    new BoxGeometry(1000, 10, 1000),
+    new MeshStandardMaterial({
+        color: 'rgb(150, 150, 150)',
+        metalness: 1,
+        roughness: 0.5
+    })
+);
+floor.position.y = -5;
+floor.receiveShadow = true;
+
+// 设置墙面
+const wall = new Mesh(
+    new PlaneGeometry(1000, 300),
+    new MeshStandardMaterial({
+        color: 'rgb(50, 50, 50)'
+    })
+);
+wall.translateY(150);
+wall.translateZ(-500);
+
+// 放置物体
 const box = new Mesh(
     new BoxGeometry(50, 50, 50),
-    material,
+    new MeshStandardMaterial({
+        color: 'rgb(255, 255, 100)',
+        metalness: 1,
+        roughness: 0.5
+    })
 );
-box.position.x = -50;
-box.position.y = 25;
+box.translateY(25);
+box.castShadow = true;
 
-const sphere = new Mesh(
-    new SphereGeometry(25, 32, 32),
-    material,
-);
-sphere.position.x = 50;
-sphere.position.y = 25;
-
-const cylinder = new Mesh(
-    new CylinderGeometry(25, 25, 50, 32, 32),
-    material,
-)
-cylinder.position.z = 50;
-cylinder.position.y = 25;
-
-const cone = new Line(
-    new ConeGeometry(25, 50, 32, 32),
-    materialLine,
-);
-cone.position.z = -50;
-cone.position.y = 25;
-
-basicObjectList.push(box, sphere, cylinder, cone);
+basicObjectList.push(floor, wall, box);
